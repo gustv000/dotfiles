@@ -31,9 +31,15 @@ source $ZSH/oh-my-zsh.sh
 alias minikube-env='eval $(minikube docker-env)'
 alias kg='kubectl get'
 alias kgpo='kubectl get pods'
+alias kgpoa='kubectl get pods --all-namespaces'
 alias kgd='kubectl get deployments'
 alias kl='kubectl logs -f'
 alias ka='kubectl apply -f'
 alias krmf='kubectl delete -f'
 alias krm='kubectl delete'
 alias kex='kubectl exec -it'
+
+# pnpm
+export PNPM_HOME="/home/gustavo/.local/share/pnpm"
+export PATH="$PNPM_HOME:$PATH"
+# pnpm end

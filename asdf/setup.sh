@@ -19,7 +19,8 @@ if [ ! -d "$HOME/.asdf/installs/python" ]; then
     asdf global python 3.9.1 && \
     asdf reshim && \
     pip install neovim && \
-    pip install black
+    pip install black && \
+    pip install psycopg2-binary
     _log "Python plugin added"
 fi
 

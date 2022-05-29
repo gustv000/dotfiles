@@ -133,6 +133,10 @@ if ! brew ls --versions ranger > /dev/null; then
     _log "Ranger installed"
 fi
 
+if ! brew ls --versions postgresql > /dev/null; then
+    brew install postgresql
+    _log "Postgresql installed"
+fi
 
 . $(pwd)/zsh/setup.sh
 . $(pwd)/asdf/setup.sh

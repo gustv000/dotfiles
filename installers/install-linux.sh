@@ -157,6 +157,12 @@ if ! dpkg -s ranger >> /dev/null; then
     _log "Ranger installed"
 fi
 
+apt list --installed | grep libpq-dev
+if [ $? != 0 ]; then
+    sudo apt -y install libpq-dev python3-dev
+    _log "Libpq-dev & python3-dev installed"
+fi
+
 which docker >> /dev/null
 if [ $? != 0 ]; then
     sudo apt -y install ca-certificates lsb-release
