@@ -15,3 +15,5 @@ export LIBRARY_PATH=$LIBRARY_PATH:/usr/local/opt/openssl/lib/
 export CPPFLAGS="-I/usr/local/opt/openjdk/include"
 
 alias java8='export JAVA_HOME=$JAVA_8_HOME'
+alias e64="cat | tr -d \"\\n\" | base64"
+alias d64="base64 -d"

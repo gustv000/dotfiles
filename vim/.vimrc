@@ -40,8 +40,8 @@ set smartindent
 set undofile
 set undodir=~/.config/nvim/undo
 set undolevels=10000
-set shellcmdflag=-ic
-colorscheme ghdark
+set shellcmdflag=-ci
+colorscheme ghdark 
 
 let s:using_snippets = 0
 let g:airline_theme='ghdark'
@@ -88,9 +88,9 @@ nnoremap <silent> <s-Down> :m +1<CR>
 nnoremap <silent> <s-Up> :m -2<CR>
 vnoremap <C-c> "+y<CR>
 nnoremap <C-S-f> :Ag<CR>
+nnoremap <C-f> :Ag<CR>
 nnoremap <C-p> :Files<CR>
-" Format json
-nnoremap <C-S-h> :%!jq .<CR>
+
 " \b \f \g : go back/forward/last-used
 nnoremap <C-k> :bp<CR>
 nnoremap <C-l> :bn<CR>
@@ -109,11 +109,10 @@ nmap <Leader>dk <Plug>VimspectorRestart
 nmap <Leader>dh <Plug>VimspectorStepOut
 nmap <Leader>dl <Plug>VimspectorStepInto
 nmap <Leader>dj <Plug>VimspectorStepOver
-nmap <Leader>di <Plug>VimspectorBalloonEval
 xmap <Leader>di <Plug>VimspectorBalloonEval
 
 
-" CoC.nvim
+" CoC.nvim Autocompletions
 inoremap <silent><expr> <TAB>
       \ pumvisible() ? "\<C-n>" :
       \ <SID>check_back_space() ? "\<TAB>" :
@@ -166,3 +165,7 @@ let @k = '/HostedEventeeeeevby€kdoprivate readonly pi€kr _handler;o€ku€kuopr
 let @l = '/Disposablevnddd€kudd/Consume(dwiHandlerAsyncWithRetry$bdwbdwiIDictionary<string, object> headers0eeeeebdwiMessageHandlerResult:%s/ConsumerResult/MessageHaa€kbndlerResult/g/IConsumer/ICONS€kb€kb€kbonsumer<dwiIEventHandlerAsync/IConsumerddgg/namespace€ku€kuousing TooSeguros.Messageing.RabbitMQ.Interfaces.v2;ousing TooSeguros.Message€kbing.RabbitMQ.Enumsl€kb;€kubbbbbe€kl€kl€klx€kdousing System.Collections.Generic;/Abd€kbstractions.Consumerdd'
 
 let @w = '0V:s/"/\\"/g0e€klxe€krxeebx$€kl€klx0'
+autocmd FileType cs setlocal shiftwidth=4 tabstop=4 expandtab
+autocmd FileType json setlocal shiftwidth=2 tabstop=2 expandtab
+autocmd FileType yaml setlocal shiftwidth=2 tabstop=2 expandtab
+autocmd FileType yml setlocal shiftwidth=2 tabstop=2 expandtab

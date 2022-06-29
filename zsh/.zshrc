@@ -38,8 +38,17 @@ alias ka='kubectl apply -f'
 alias krmf='kubectl delete -f'
 alias krm='kubectl delete'
 alias kex='kubectl exec -it'
+alias kesc='kubectl edit scaledobject'
 
 # pnpm
 export PNPM_HOME="/home/gustavo/.local/share/pnpm"
 export PATH="$PNPM_HOME:$PATH"
 # pnpm end
+
+alias editvim="nvim ~/dotfiles/vim/.vimrc"
+alias editcustom="nvim ~/dotfiles/zsh/custom.sh"
+alias minikube-local-registry="~/dotfiles/scripts/minikube-local-registry.sh"
+
+# Generated for envman. Do not edit.
+[ -s "$HOME/.config/envman/load.sh" ] && source "$HOME/.config/envman/load.sh"
+

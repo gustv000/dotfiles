@@ -101,18 +101,6 @@ if [ ! -d "/usr/local/opt/openjdk" ]; then
     _log "Java installed"
 fi
 
-if [ ! -f "$HOME/.vim/autoload/plug.vim" ]; then
-    curl -fLo ~/.vim/autoload/plug.vim --create-dirs \
-    https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-    _log "Plug vim installed for vim"
-fi
-
-if [ ! -f "$HOME/.local/share/nvim/site/autoload/plug.vim" ]; then
-    sh -c 'curl -fLo "${XDG_DATA_HOME:-$HOME/.local/share}"/nvim/site/autoload/plug.vim --create-dirs \
-       https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
-    _log "Plug vim installed for nvim"
-fi
-
 if ! brew ls --versions figlet > /dev/null; then
     brew install figlet 
     _log "Figlet installed"
