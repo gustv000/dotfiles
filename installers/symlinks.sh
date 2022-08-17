@@ -52,6 +52,12 @@ if [ ! -f "$HOME/.config/i3status/config" ]; then
     _log "Created i3 bar config link"
 fi
 
+if [ ! -f "$HOME/.screenlayout/default.sh" ]; then
+    mkdir -p $HOME/.screenlayout
+    ln -s $(pwd)/i3/screenlayout.sh $HOME/.screenlayout/default.sh
+    _log "Created screenlayout.sh link"
+fi
+
 if [ "$(uname -s)" = "Darwin" ]; then
     if [ ! -d "/Library/Java/JavaVirtualMachines/openjdk.jdk" ]; then
 	sudo ln -sfn /usr/local/opt/openjdk/libexec/openjdk.jdk /Library/Java/JavaVirtualMachines/openjdk.jdk

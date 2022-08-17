@@ -171,9 +171,14 @@ if [ $? != 0 ]; then
     sudo su
     dpkg -i ./keyring.deb
     echo "deb http://debian.sur5r.net/i3/ $(grep '^DISTRIB_CODENAME=' /etc/lsb-release | cut -f2 -d=) universe" >> /etc/apt/sources.list.d/sur5r-i3.list
-    apt update -y && apt install i3-wm i3 i3lock xautolock -y
+    apt update -y && apt install i3-wm i3 i3lock -y
     rm ./keyring.deb
     exit
+fi
+
+which arandr >> /dev/null
+if [ $? != 0 ]; then
+    sudo apt install arandr -y
 fi
 
 . $(pwd)/zsh/setup.sh
