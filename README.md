@@ -20,6 +20,7 @@ For linux, if is needed to install essential libs:
 ```
 
 Installs:
+- i3wm (debian)
 - tmux
 - zsh
 - neovim
