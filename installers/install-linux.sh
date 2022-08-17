@@ -176,9 +176,12 @@ if [ $? != 0 ]; then
     exit
 fi
 
-which arandr >> /dev/null
-if [ $? != 0 ]; then
+if ! dpkg -s arandr >> /dev/null; then
     sudo apt install arandr -y
+fi
+
+if ! dpkg -s rofi >> /dev/null; then
+    sudo apt install rofi -y
 fi
 
 . $(pwd)/zsh/setup.sh
