@@ -40,6 +40,18 @@ if [ ! -f "$HOME/.tmux.conf" ]; then
     _log "Created tmux.conf link"
 fi
 
+if [ ! -f "$HOME/.config/i3/config" ]; then
+    mkdir -p $HOME/.config/i3
+    ln -s $(pwd)/i3/config $HOME/.config/i3/config
+    _log "Created i3 config link"
+fi
+
+if [ ! -f "$HOME/.config/i3status/config" ]; then
+    mkdir -p $HOME/.config/i3status
+    ln -s $(pwd)/i3/bar-config $HOME/.config/i3status/config
+    _log "Created i3 bar config link"
+fi
+
 if [ "$(uname -s)" = "Darwin" ]; then
     if [ ! -d "/Library/Java/JavaVirtualMachines/openjdk.jdk" ]; then
 	sudo ln -sfn /usr/local/opt/openjdk/libexec/openjdk.jdk /Library/Java/JavaVirtualMachines/openjdk.jdk
