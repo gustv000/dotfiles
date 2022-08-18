@@ -40,22 +40,34 @@ if [ ! -f "$HOME/.tmux.conf" ]; then
     _log "Created tmux.conf link"
 fi
 
-if [ ! -f "$HOME/.config/i3/config" ]; then
-    mkdir -p $HOME/.config/i3
-    ln -s $(pwd)/i3/config $HOME/.config/i3/config
-    _log "Created i3 config link"
-fi
+if [ "$(uname -s)" = "Linux" ]; then
+    if [ ! -f "$HOME/.config/i3/config" ]; then
+	mkdir -p $HOME/.config/i3
+	ln -s $(pwd)/i3/config $HOME/.config/i3/config
+	_log "Created i3 config link"
+    fi
 
-if [ ! -f "$HOME/.config/i3status/config" ]; then
-    mkdir -p $HOME/.config/i3status
-    ln -s $(pwd)/i3/bar-config $HOME/.config/i3status/config
-    _log "Created i3 bar config link"
-fi
+    if [ ! -f "$HOME/.config/i3status/config" ]; then
+	mkdir -p $HOME/.config/i3status
+	ln -s $(pwd)/i3/bar-config $HOME/.config/i3status/config
+	_log "Created i3 bar config link"
+    fi
 
-if [ ! -f "$HOME/.screenlayout/default.sh" ]; then
-    mkdir -p $HOME/.screenlayout
-    ln -s $(pwd)/i3/screenlayout.sh $HOME/.screenlayout/default.sh
-    _log "Created screenlayout.sh link"
+    if [ ! -f "$HOME/.screenlayout/default.sh" ]; then
+	mkdir -p $HOME/.screenlayout
+	ln -s $(pwd)/i3/screenlayout.sh $HOME/.screenlayout/default.sh
+	_log "Created screenlayout.sh link"
+    fi
+
+    if [ ! -f "/usr/share/applications/alacritty.desktop" ]; then
+	sudo ln -s $(pwd)/applications/alacritty.desktop /usr/share/applications/alacritty.desktop
+	_log "Created alacritty.desktop link"
+    fi
+
+    if [ ! -f "/usr/share/applications/postman.desktop" ]; then
+	sudo ln -s $(pwd)/applications/postman.desktop /usr/share/applications/postman.desktop
+	_log "Created postman.desktop link"
+    fi
 fi
 
 if [ "$(uname -s)" = "Darwin" ]; then

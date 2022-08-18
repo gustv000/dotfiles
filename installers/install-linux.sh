@@ -4,7 +4,7 @@
 
 ESSENTIALS="${1:-no}"
 if [ $ESSENTIALS = "--essentials" ]; then
-    sudo apt-get update; sudo apt-get install --no-install-recommends make build-essential libssl-dev zlib1g-dev libbz2-dev libreadline-dev libsqlite3-dev wget curl llvm libncurses5-dev xz-utils tk-dev libxml2-dev libxmlsec1-dev libffi-dev liblzma-dev
+    sudo apt-get update; sudo apt-get install --no-install-recommends make build-essential libssl-dev zlib1g-dev libbz2-dev libreadline-dev libsqlite3-dev wget curl llvm libncurses5-dev xz-utils tk-dev libxml2-dev libxmlsec1-dev libffi-dev liblzma-dev cmake pkg-config libfreetype6-dev libfontconfig1-dev libxcb-xfixes0-dev libxkbcommon-dev
 fi
 
 if ! dpkg -s curl >> /dev/null; then
@@ -103,6 +103,23 @@ if [ $? != 0 ]; then
     sudo chmod +x ./helmfile_linux_amd64
     sudo mv ./helmfile_linux_amd64 /usr/local/bin/helmfile
     _log "Helmfile installed"
+fi
+
+which alacritty >> /dev/null
+if [ $? != 0 ]; then
+    sudo apt install cargo -y
+    cargo install alacritty
+    sudo update-alternatives --install /usr/bin/x-terminal-emulator x-terminal-emulator $HOME/.cargo/bin/alacritty 50
+    _log "Alacritty installed"
+fi
+
+ls /usr/share/Postman >> /dev/null
+if [ $? != 0 ]; then
+    curl https://dl.pstmn.io/download/latest/linux64 --output postman.tar.gz
+    tar -xvf postman.tar.gz
+    sudo mv Postman /usr/share
+    rm postman.tar.gz
+    _log "Postman installed"
 fi
 
 if ! dpkg -s dbeaver-ce >> /dev/null; then

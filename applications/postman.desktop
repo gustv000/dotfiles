@@ -1,0 +1,11 @@
+[Desktop Entry]
+Version=1.0
+Type=Application
+Terminal=false
+Name=Postman
+GenericName=Postman
+Path=/usr/share/Postman
+Exec=/usr/share/Postman/Postman
+Icon=/usr/share/Postman/app/icons/icon_128x128.png
+Categories=Development
+StartupNotify=true

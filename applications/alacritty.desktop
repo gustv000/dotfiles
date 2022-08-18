@@ -1,0 +1,10 @@
+[Desktop Entry]
+Version=1.0
+Type=Application
+Terminal=false
+Name=alacritty
+GenericName=Alacritty
+Path=/home/gustavo
+Exec=/home/gustavo/.cargo/bin/alacritty -o font.size=8
+Categories=Development
+StartupNotify=true
