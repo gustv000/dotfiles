@@ -105,12 +105,6 @@ if [ $? != 0 ]; then
     _log "Helmfile installed"
 fi
 
-if ! dpkg -s alacritty >> /dev/null; then
-    sudo add-apt-repository ppa:mmstick76/alacritty
-    sudo apt -y install alacritty
-    _log "Alacritty installed"
-fi
-
 if ! dpkg -s dbeaver-ce >> /dev/null; then
     wget https://dbeaver.io/files/dbeaver-ce_latest_amd64.deb
     sudo dpkg -i dbeaver-ce_latest_amd64.deb
@@ -165,15 +159,8 @@ if [ $? != 0 ]; then
     _log "Docker installed"
 fi
 
-which i3 >> /dev/null
-if [ $? != 0 ]; then
-    /usr/lib/apt/apt-helper download-file https://debian.sur5r.net/i3/pool/main/s/sur5r-keyring/sur5r-keyring_2022.02.17_all.deb keyring.deb SHA256:52053550c4ecb4e97c48900c61b2df4ec50728249d054190e8a0925addb12fc6
-    sudo su
-    dpkg -i ./keyring.deb
-    echo "deb http://debian.sur5r.net/i3/ $(grep '^DISTRIB_CODENAME=' /etc/lsb-release | cut -f2 -d=) universe" >> /etc/apt/sources.list.d/sur5r-i3.list
-    apt update -y && apt install i3-wm i3 i3lock -y
-    rm ./keyring.deb
-    exit
+if ! dpkg -s i3 >> /dev/null; then
+    sudo apt install i3-wm i3 i3lock -y
 fi
 
 if ! dpkg -s arandr >> /dev/null; then

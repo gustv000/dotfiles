@@ -194,4 +194,5 @@ workspace 3 output eDP-1
 focus_follows_mouse no
 
 bindsym Control+Mod1+l exec "i3lock -c 000000"
+bindsym --release Print exec gnome-screenshot -i
 exec --no-startup-id ~/.screenlayout/default.sh
