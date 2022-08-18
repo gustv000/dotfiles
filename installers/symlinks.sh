@@ -40,6 +40,12 @@ if [ ! -f "$HOME/.tmux.conf" ]; then
     _log "Created tmux.conf link"
 fi
 
+if [ ! -f "$HOME/.config/alacritty/alacritty.yml" ]; then
+    mkdir -p $HOME/.config/alacritty
+    ln -s $(pwd)/alacritty/config.yaml $HOME/.config/alacritty/alacritty.yml
+    _log "Created alacritty config link"
+fi
+
 if [ "$(uname -s)" = "Linux" ]; then
     if [ ! -f "$HOME/.config/i3/config" ]; then
 	mkdir -p $HOME/.config/i3

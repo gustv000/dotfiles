@@ -5,6 +5,6 @@ Terminal=false
 Name=alacritty
 GenericName=Alacritty
 Path=/home/gustavo
-Exec=/home/gustavo/.cargo/bin/alacritty -o font.size=8
+Exec=/home/gustavo/.cargo/bin/alacritty
 Categories=Development
 StartupNotify=true

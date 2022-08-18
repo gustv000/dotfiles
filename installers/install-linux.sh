@@ -28,6 +28,8 @@ if ! dpkg -s zsh >> /dev/null; then
 fi
 
 if ! dpkg -s neovim >> /dev/null; then
+    sudo add-apt-repository ppa:neovim-ppa/unstable
+    sudo apt-get update
     sudo apt -y install neovim
     _log "Neovim installed"
 fi
