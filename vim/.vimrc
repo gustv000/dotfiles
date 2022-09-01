@@ -300,5 +300,9 @@ lua <<EOF
   require('lspconfig')['tsserver'].setup {
     capabilities = capabilities
   }
+
+  require('lspconfig')['omnisharp'].setup {
+    cmd = { "/home/gustavo/.config/coc/extensions/coc-omnisharp-data/server/run" },
+  }
 EOF
 
