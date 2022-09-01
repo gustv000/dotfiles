@@ -21,6 +21,14 @@ Plug 'OmniSharp/omnisharp-vim'
 Plug 'psf/black', { 'branch': 'stable' }
 Plug 'puremourning/vimspector'
 Plug 'easymotion/vim-easymotion'
+Plug 'neovim/nvim-lspconfig'
+Plug 'hrsh7th/cmp-nvim-lsp'
+Plug 'hrsh7th/cmp-buffer'
+Plug 'hrsh7th/cmp-path'
+Plug 'hrsh7th/cmp-cmdline'
+Plug 'hrsh7th/nvim-cmp'
+Plug 'hrsh7th/cmp-vsnip'
+Plug 'hrsh7th/vim-vsnip'
 call plug#end()
 
 syntax on
@@ -44,6 +52,7 @@ set undolevels=10000
 set shellcmdflag=-ci
 colorscheme ghdark 
 
+let b:coc_suggest_disable = 1
 let s:using_snippets = 0
 let g:airline_theme='minimalist'
 let g:airline#extensions#branch#enabled = 1
@@ -51,7 +60,7 @@ let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#tabline#show_buffers = 1
 let g:airline#extensions#tabline#switch_buffers_and_tabs = 1
 let g:airline#extensions#tabline#tab_nr_type = 1
-let g:coc_global_extensions = ['coc-json', 'coc-html', 'coc-cfn-lint', 'coc-python', 'coc-phpls', 'coc-git', 'coc-tsserver', 'coc-eslint', 'coc-omnisharp']
+let g:coc_global_extensions = ['coc-json', 'coc-html', 'coc-cfn-lint', 'coc-phpls', 'coc-git', 'coc-eslint', 'coc-omnisharp', 'coc-pyright']
 let g:indentguides_spacechar = '┆'
 let g:indentguides_tabchar = '▏'
 let g:indentguides_ignorelist = ['json']
@@ -84,6 +93,8 @@ let g:ale_fix_on_save = 1
 let g:fzf_layout = { 'down': '~40%' }
 let g:vimspector_enable_mappings = 'HUMAN'
 let g:vimspector_install_gadgets = [ 'vscode-go', 'debugpy', 'debugger-for-chrome', 'netcoredbg', 'vscode-node-debug2' ]
+let g:go_def_mode='gopls'
+let g:go_info_mode='gopls'
 
 map <leader>e :Ranger<CR>
 nnoremap <C-n> :NERDTreeToggle<CR>
@@ -108,10 +119,8 @@ nnoremap <Leader>1 :b<space>
 nnoremap <Leader>dd :call vimspector#Launch()<CR>
 nnoremap <Leader>de :call vimspector#Reset()<CR>
 nnoremap <Leader>dc :call vimspector#Continue()<CR>
-
 nnoremap <Leader>dt :call vimspector#ToggleBreakpoint()<CR>
 nnoremap <Leader>dT :call vimspector#ClearBreakpoints()<CR>
-
 nmap <Leader>dk <Plug>VimspectorRestart
 nmap <Leader>dh <Plug>VimspectorStepOut
 nmap <Leader>dl <Plug>VimspectorStepInto
@@ -119,23 +128,14 @@ nmap <Leader>dj <Plug>VimspectorStepOver
 xmap <Leader>di <Plug>VimspectorBalloonEval
 
 
-" CoC.nvim Autocompletions
-inoremap <silent><expr> <TAB>
-      \ coc#pum#visible() ? coc#pum#next(1):
-      \ CheckBackspace() ? "\<Tab>" :
-      \ coc#refresh()
-inoremap <expr><S-TAB> coc#pum#visible() ? coc#pum#prev(1) : "\<C-h>"
-
-inoremap <silent><expr> <CR> coc#pum#visible() ? coc#pum#confirm()
-                              \: "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
-
-function! CheckBackspace() abort
-  let col = col('.') - 1
-  return !col || getline('.')[col - 1]  =~# '\s'
-endfunction
-
-" Use <c-space> to trigger completion.
-inoremap <silent><expr> <c-space> coc#refresh()
+" Go Debug
+nnoremap <Leader>gdd :GoDebugStart<CR>
+nnoremap <Leader>gdc :GoDebugContinue<CR>
+nnoremap <Leader>gdt :GoDebugBreakpoint<CR>
+nnoremap <Leader>gdk :GoDebugRestart<CR>
+nnoremap <Leader>gdh :GoDebugStepOut<CR>
+nnoremap <Leader>gdl :GoDebugStep<CR>
+nnoremap <Leader>gdj :GoDebugNext<CR>
 
 " Use `[g` and `]g` to navigate diagnostics
 " Use `:CocDiagnostics` to get all diagnostics of current buffer in location list.
@@ -203,3 +203,102 @@ autocmd FileType cs setlocal shiftwidth=4 tabstop=4 expandtab
 autocmd FileType json setlocal shiftwidth=2 tabstop=2 expandtab
 autocmd FileType yaml setlocal shiftwidth=2 tabstop=2 expandtab
 autocmd FileType yml setlocal shiftwidth=2 tabstop=2 expandtab
+autocmd FileType javascriptreact setlocal shiftwidth=2 tabstop=2 expandtab
+autocmd FileType javascript setlocal shiftwidth=2 tabstop=2 expandtab
+autocmd FileType go setlocal shiftwidth=8 tabstop=8 expandtab
+
+set completeopt=menu,menuone,noselect
+
+lua <<EOF
+  -- Setup nvim-cmp.
+  local cmp = require'cmp'
+
+  cmp.setup({
+    snippet = {
+      expand = function(args)
+        vim.fn["vsnip#anonymous"](args.body) -- For `vsnip` users.
+      end,
+    },
+    window = {
+      completion = cmp.config.window.bordered(),
+      documentation = cmp.config.window.bordered(),
+    },
+    mapping = {
+	['<C-b>'] = cmp.mapping.scroll_docs(-4),
+	['<C-f>'] = cmp.mapping.scroll_docs(4),
+	['<C-Space>'] = cmp.mapping.complete(),
+	['<C-e>'] = cmp.mapping.abort(),
+	['<CR>'] = cmp.mapping.confirm({ select = true }), -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
+
+	["<Tab>"] = cmp.mapping(function(fallback)
+	  if cmp.visible() then
+	    cmp.select_next_item()
+	  elseif vim.fn["vsnip#available"](1) == 1 then
+	    feedkey("<Plug>(vsnip-expand-or-jump)", "")
+	  else
+	    fallback() -- The fallback function sends a already mapped key. In this case, it's probably `<Tab>`.
+	  end
+	end, { "i", "s" }),
+
+	["<S-Tab>"] = cmp.mapping(function()
+	  if cmp.visible() then
+	    cmp.select_prev_item()
+	  elseif vim.fn["vsnip#jumpable"](-1) == 1 then
+	    feedkey("<Plug>(vsnip-jump-prev)", "")
+	  end
+	end, { "i", "s" }),
+    },
+    sources = cmp.config.sources({
+      { name = 'nvim_lsp' },
+      { name = 'vsnip' }, -- For vsnip users.
+    }, {
+      { name = 'buffer' },
+    })
+  })
+
+  -- Set configuration for specific filetype.
+  cmp.setup.filetype('gitcommit', {
+    sources = cmp.config.sources({
+      { name = 'cmp_git' }, -- You can specify the `cmp_git` source if you were installed it.
+    }, {
+      { name = 'buffer' },
+    })
+  })
+
+  -- Use buffer source for `/` (if you enabled `native_menu`, this won't work anymore).
+  cmp.setup.cmdline('/', {
+    mapping = cmp.mapping.preset.cmdline(),
+    sources = {
+      { name = 'buffer' }
+    }
+  })
+
+  -- Use cmdline & path source for ':' (if you enabled `native_menu`, this won't work anymore).
+  cmp.setup.cmdline(':', {
+    mapping = cmp.mapping.preset.cmdline(),
+    sources = cmp.config.sources({
+      { name = 'path' }
+    }, {
+      { name = 'cmdline', keyword_pattern = [[\!\@<!\w*]] }
+    })
+  })
+
+  -- Setup lspconfig.
+  local capabilities = require('cmp_nvim_lsp').update_capabilities(vim.lsp.protocol.make_client_capabilities())
+  require('lspconfig')['pyright'].setup {
+    capabilities = capabilities
+  }
+
+  require('lspconfig')['gopls'].setup {
+    capabilities = capabilities
+  }
+
+  require('lspconfig')['eslint'].setup {
+    capabilities = capabilities
+  }
+
+  require('lspconfig')['tsserver'].setup {
+    capabilities = capabilities
+  }
+EOF
+
