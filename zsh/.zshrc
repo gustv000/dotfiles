@@ -52,3 +52,7 @@ alias minikube-local-registry="~/dotfiles/scripts/minikube-local-registry.sh"
 # Generated for envman. Do not edit.
 [ -s "$HOME/.config/envman/load.sh" ] && source "$HOME/.config/envman/load.sh"
 
+
+
+# Load Angular CLI autocompletion.
+source <(ng completion script)

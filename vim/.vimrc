@@ -168,6 +168,7 @@ let maplocalleader = ","
 let g:sharpnup_map_prefix = ',os'
 
 autocmd BufWritePre *.py execute ':Black'
+autocmd BufWritePre *.ts execute ':CocCommand eslint.executeAutofix'
 
 filetype plugin on
 set omnifunc=syntaxcomplete#Complete
@@ -205,6 +206,8 @@ autocmd FileType yaml setlocal shiftwidth=2 tabstop=2 expandtab
 autocmd FileType yml setlocal shiftwidth=2 tabstop=2 expandtab
 autocmd FileType javascriptreact setlocal shiftwidth=2 tabstop=2 expandtab
 autocmd FileType javascript setlocal shiftwidth=2 tabstop=2 expandtab
+autocmd FileType ts setlocal shiftwidth=2 tabstop=2 expandtab
+autocmd FileType typescript setlocal shiftwidth=2 tabstop=2 expandtab
 autocmd FileType go setlocal shiftwidth=8 tabstop=8 expandtab
 
 set completeopt=menu,menuone,noselect
@@ -290,10 +293,6 @@ lua <<EOF
   }
 
   require('lspconfig')['gopls'].setup {
-    capabilities = capabilities
-  }
-
-  require('lspconfig')['eslint'].setup {
     capabilities = capabilities
   }
 
